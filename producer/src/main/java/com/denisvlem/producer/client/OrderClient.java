@@ -1,7 +1,7 @@
 package com.denisvlem.producer.client;
 
 import com.denisvlem.producer.configuration.properties.KafkaProducerProperties;
-import com.denisvlem.producer.entity.Order;
+import com.denisvlem.producer.entity.OrderMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -19,17 +19,17 @@ public class OrderClient {
   /**
    * Send the order to Kafka broker.
    *
-   * @param order - order data
+   * @param orderMessage - order data
    */
-  public void sendOrder(Order order) {
+  public void sendOrder(OrderMessage orderMessage) {
 
     var producerRecord = new ProducerRecord<String, Object>(
         kafkaProducerProperties.getTopic(),
         null,
         "key",
-        order
+        orderMessage
     );
-    log.info("Sending an order: {}, to the topic: {}", order, kafkaProducerProperties.getTopic());
+    log.info("Sending an order: {}, to the topic: {}", orderMessage, kafkaProducerProperties.getTopic());
     kafkaTemplate.send(producerRecord);
     log.info("Sending an order is done");
   }

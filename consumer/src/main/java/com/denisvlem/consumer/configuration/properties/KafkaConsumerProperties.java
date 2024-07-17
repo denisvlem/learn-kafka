@@ -1,4 +1,4 @@
-package com.denisvlem.consumer.configuration;
+package com.denisvlem.consumer.configuration.properties;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

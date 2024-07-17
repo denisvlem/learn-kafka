@@ -6,7 +6,7 @@ kafka:
     consumer:
       bootstrap-servers: localhost:9092
       topic: orders
-      group-id: myGroup1
+      group-id: myGroup
 server:
   port: 8081
 management:

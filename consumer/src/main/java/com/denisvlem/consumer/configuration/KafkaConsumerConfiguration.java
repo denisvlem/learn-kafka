@@ -1,6 +1,7 @@
 package com.denisvlem.consumer.configuration;
 
-import com.denisvlem.consumer.entity.Order;
+import com.denisvlem.consumer.configuration.properties.KafkaConsumerProperties;
+import com.denisvlem.consumer.entity.OrderMessage;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class KafkaConsumerConfiguration {
   private final KafkaConsumerProperties kafkaConsumerProperties;
 
   @Bean
-  public ConsumerFactory<String, Order> consumerFactory() {
+  public ConsumerFactory<String, OrderMessage> consumerFactory() {
     log.debug("Properties: {}", kafkaConsumerProperties);
     Map<String, Object> configs = Map.of(
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConsumerProperties.getBootstrapServers(),
@@ -36,15 +37,15 @@ public class KafkaConsumerConfiguration {
     return new DefaultKafkaConsumerFactory<>(
         configs,
         new StringDeserializer(),
-        new JsonDeserializer<>(Order.class, false)
+        new JsonDeserializer<>(OrderMessage.class, false)
     );
   }
 
   @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, Order> listenerContainerFactory(
-      ConsumerFactory<String, Order> consumerFactory
+  public ConcurrentKafkaListenerContainerFactory<String, OrderMessage> listenerContainerFactory(
+      ConsumerFactory<String, OrderMessage> consumerFactory
   ) {
-    var factory = new ConcurrentKafkaListenerContainerFactory<String, Order>();
+    var factory = new ConcurrentKafkaListenerContainerFactory<String, OrderMessage>();
     factory.setConsumerFactory(consumerFactory);
     return factory;
   }
